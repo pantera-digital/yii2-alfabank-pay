@@ -20,6 +20,7 @@ class Alfabank extends Component
 {
     /* @var Module */
     private $module;
+
     /**
      * @var string Логин в альфабанке
      */
@@ -32,6 +33,14 @@ class Alfabank extends Component
      * @var string Адрес платежного шлюза
      */
     public $url = 'https://pay.alfabank.ru/payment/rest/';
+    /**
+     * @var string Тестовый адрес платежного шлюза
+     */
+    public $urlTest = 'https://web.rbsuat.com/ab/rest/';
+    /**
+     * @var bool Если true будет использован тестовый сервер
+     */
+    public $testServer = false;
     /**
      * @var string Акшион альфабанка для регистрации оплаты
      */
@@ -59,6 +68,9 @@ class Alfabank extends Component
             || empty($this->actionStatus)
             || empty($this->returnUrl)) {
             throw new InvalidConfigException('Модуль настроен не правильно пожалуйсто прочтите документацию');
+        }
+        if ($this->testServer && empty($this->urlTest)) {
+            throw new InvalidConfigException('Включен тестовый режим но тестовый адрес альфабанка пустой');
         }
     }
 
@@ -97,7 +109,7 @@ class Alfabank extends Component
     {
         $data['userName'] = $this->login;
         $data['password'] = $this->password;
-        $url = $this->url . $action;
+        $url = $this->getBaseUrl() . $action;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -106,5 +118,10 @@ class Alfabank extends Component
         $out = curl_exec($curl);
         curl_close($curl);
         return Json::decode($out);
+    }
+
+    private function getBaseUrl(): string
+    {
+        return $this->testServer ? $this->urlTest : $this->url;
     }
 }
