@@ -18,7 +18,7 @@ php yii migrate --migrationPath=@pantera/yii2/pay/alfabank/migrations
     'alfabank' => [
         'class' => pantera\yii2\pay\alfabank\Module::class,
         'components' => [
-            'sberbank' => [
+            'alfabank' => [
                 'class' => pantera\yii2\pay\alfabank\components\Alfabank::class,
                 
                 // время жизни инвойса в секундах (по умолчанию 20 минут - см. документацию Альфабанка)
