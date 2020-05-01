@@ -47,7 +47,16 @@ php yii migrate --migrationPath=@pantera/yii2/pay/alfabank/migrations
             $client = $order->getClient();
             $client->sendEmail('Зачислена оплата по вашему заказу №' . $order->id);
             // .. и т.д.
-        }
+        },
+
+        // необязательный callback для генерации uniqid инвойса, необходим
+        // в том случае, если по каким-то причинам используемый по умолчанию
+        // формат `#invoice_id#-#timestamp#` вам не подходит
+        'idGenerator' => function(Invoice $invoice, int $id) {
+            // $id - это uniqid, сгенерированный по умолчанию
+            // вместо него используем собственный алгоритм, например такой
+            return '000-AAA-' . $invoice->id;
+        },
     ],
 ]
 ```
