@@ -31,6 +31,9 @@ php yii migrate --migrationPath=@pantera/yii2/pay/alfabank/migrations
                 
                 // пароль api мерчанта
                 'password' => 'ваш пароль',
+                
+                // url платежного шлюза (для Беларуси)
+                //'url' => 'ваш платежный шлюз',
             ],
         ],
         
