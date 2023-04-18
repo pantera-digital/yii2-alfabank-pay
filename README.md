@@ -13,7 +13,6 @@ php yii migrate --migrationPath=@pantera/yii2/pay/alfabank/migrations
 ### Настройка, добавить в config/main.php
 
 ```
-'bootstrap' => ['alfabank'],
 'modules' => [
     'alfabank' => [
         'class' => pantera\yii2\pay\alfabank\Module::class,
